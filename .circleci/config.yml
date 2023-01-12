@@ -355,9 +355,6 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - notify-on-success:
-          requires:
-            - configure-infrastructure
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
           filters:
@@ -365,6 +362,9 @@ workflows:
               only: [main]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
+      - notify-on-success:
+          requires:
+            - configure-infrastructure
       # - run-migrations:
       #     requires: [configure-infrastructure]
       # - deploy-frontend:
