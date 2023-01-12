@@ -12,7 +12,7 @@ commands:
           channel: cicd
           template: basic_fail_1
   # install aws cli tools
-  instal-aws-cli:
+  install-aws-cli:
     steps:
       - run:
           name: install aws cli
@@ -21,7 +21,7 @@ commands:
             unzip awscliv2.zip
             sudo ./aws/install
   # install ansible
-  instal-ansible:
+  install-ansible:
     steps:
       - run:
           name: install ansible
@@ -165,6 +165,7 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - checkout
+      - install-aws-cli
       - run:
           name: Ensure back-end infrastructure exists
           command: |
