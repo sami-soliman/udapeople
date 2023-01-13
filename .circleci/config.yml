@@ -293,7 +293,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: 'cimg/base:stable'
+      - image: 'cimg/base:stable' 
     steps:
       - checkout
       - install-aws-cli
