@@ -241,8 +241,10 @@ jobs:
             cd backend
             npm install
             npm run migrations > migrations_dump.txt
-            cat migrations_dump.txt 
-            
+      - run:
+          name: view migrations_dump.txt
+          command: |
+            cat ~/project/backend/migrations_dump.txt
       - run:
           name: Send migration results to kvdb
           command: |
@@ -332,28 +334,40 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-#   smoke-test:
-#     docker:
-#       # Lightweight Docker image
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Get backend url
-#           command: |
-#             # your code here
-#       - run:
-#           name: Backend smoke test.
-#           command: |
-#             # your code here
-#       - run:
-#           name: Frontend smoke test.
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure
+  smoke-test:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - install-aws-cli
+      - install-ansible
+      - run:
+          name: Backend smoke test
+          command: |
+            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+            export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
+            if curl -s $API_URL/api/status | grep "ok"
+            then
+              exit 0
+            else
+              exit 1
+            fi
+      - run:
+          name: Frontend smoke test.
+          command: |
+            FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
+            if curl -s $FRONTEND_WEBSITE | grep "Welcome"
+            then
+              exit 0
+            else
+              exit 1
+            fi
+
+      - destroy-environment
+      - revert-migrations
 
 #   cloudfront-update:
 #     docker:
@@ -420,16 +434,15 @@ workflows:
           requires: [deploy-infrastructure]
       - notify-on-success:
           requires:
-            - deploy-frontend
-            - deploy-backend
+            - smoke-test
       - run-migrations:
           requires: [configure-infrastructure] 
       - deploy-frontend:
           requires: [run-migrations]
       - deploy-backend:
           requires: [run-migrations]
-      # - smoke-test:
-      #     requires: [deploy-backend, deploy-frontend]
+      - smoke-test:
+          requires: [deploy-backend, deploy-frontend]
       # - cloudfront-update:
       #     requires: [smoke-test]
       # - cleanup:
