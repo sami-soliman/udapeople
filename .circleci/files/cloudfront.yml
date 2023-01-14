@@ -20,10 +20,10 @@ Resources:
     Properties:
       DistributionConfig:
         Origins:
-          - DomainName: !Sub "udapeople-${WorkflowID}.s3.amazonaws.com"
+          - DomainName: !Sub "udapeople-${WorkflowID}.s3-website-${AWS_DEFAULT_REGION}.amazonaws.com"
             Id: webpage
-            S3OriginConfig:
-              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
+            CustomOriginConfig:
+              OriginProtocolPolicy: match-viewer
         Enabled: True
         DefaultRootObject: index.html
         DefaultCacheBehavior:
@@ -35,6 +35,6 @@ Resources:
 Outputs:
   WorkflowID:
     Value: !Sub ${WorkflowID}
-    Description: URL for website hosted on S3
+    Description: workflow id
     Export:
       Name: WorkflowID
