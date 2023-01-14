@@ -1,0 +1,9 @@
+1.github repo >>  https://github.com/sami-soliman/udapeople
+2.s3 bucket public url >>  http://udapeople-10454de.s3-website-us-east-1.amazonaws.com
+3.cloudfront url >>  http://d3qa5ho54qjho5.cloudfront.net
+4.ec2 instance public dns >>  ec2-34-206-93-18.compute-1.amazonaws.com
+5.prometheus public dns >>  http://ec2-35-174-153-68.compute-1.amazonaws.com:9090
+
+
+
+
