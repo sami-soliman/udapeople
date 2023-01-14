@@ -1,12 +1,6 @@
 # sami soliman
 version: 2.1
 
-Parameters:
-  AWSDEFAULTREGIONV:
-    Description: default region
-    Type: String
-    Default: us-east-1
-
 orbs:
   slack: circleci/slack@4.12.0
 
@@ -401,7 +395,7 @@ jobs:
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
               --stack-name InitialStack \
-              --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7},AWSDEFAULTREGION=${AWSDEFAULTREGIONV}
+              --parameter-overrides WorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
 
       - destroy-environment
       - revert-migrations

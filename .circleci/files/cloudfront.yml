@@ -8,6 +8,7 @@ Parameters:
   AWSDEFAULTREGION:
     Description: default region
     Type: String
+    Default: us-east-1
 
 Resources:
   
