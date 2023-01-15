@@ -4,6 +4,6 @@
 4.ec2 instance public dns >>  ec2-44-209-118-148.compute-1.amazonaws.com
 5.prometheus public dns >>  http://ec2-34-233-100-6.compute-1.amazonaws.com:9090
 
-
+// the prometheus link here is not the same as in the submition i added an EIP to make it persistant if the instance went down
 
 
