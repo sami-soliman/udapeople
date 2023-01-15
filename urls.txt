@@ -2,7 +2,7 @@
 2.s3 bucket public url >>  http://udapeople-6209215.s3-website-us-east-1.amazonaws.com
 3.cloudfront url >>  https://d15mzhabcrl1j2.cloudfront.net
 4.ec2 instance public dns >>  ec2-44-209-118-148.compute-1.amazonaws.com
-5.prometheus public dns >>  http://ec2-184-72-135-166.compute-1.amazonaws.com:9090
+5.prometheus public dns >>  http://ec2-34-233-100-6.compute-1.amazonaws.com:9090
 
 
 
