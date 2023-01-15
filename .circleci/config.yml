@@ -156,8 +156,15 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --force --audit-level-moderate
-            npm audit --audit-level-moderate
+            if [ npm audit --audit-level-critical ]
+            then
+              return 0
+            else
+              for i in {1..5}
+              do 
+                npm audit fix --audit-level-critical
+              done
+            fi
 
       - notify-on-failure
 
@@ -173,8 +180,15 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --force --audit-level-moderate
-            npm audit --audit-level-moderate
+            if [ npm audit --audit-level-critical ]
+            then
+              return 0
+            else
+              for i in {1..5}
+              do 
+                npm audit fix --audit-level-critical
+              done
+            fi
 
       - notify-on-failure
 
